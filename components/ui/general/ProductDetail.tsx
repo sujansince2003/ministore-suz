@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ShoppingCart, ArrowLeft, Star } from "lucide-react";
+import { ShoppingCart, ArrowLeft, Star, Plus, Minus } from "lucide-react";
 import toast from "react-hot-toast";
 import type { ProductType } from "@/types/index.types";
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,7 @@ import { truncateText, formatCurrency } from "@/lib/products-utils";
 import Link from "next/link";
 import { useState } from "react";
 import ProductCard from "./ProductCard";
+import { useCartStore } from "@/store/cartStore";
 
 interface ProductDetailProps {
   product: ProductType;
@@ -21,12 +22,29 @@ export function ProductDetail({
   relatedProducts,
 }: ProductDetailProps) {
   const [imageLoading, setImageLoading] = useState(true);
+  const [itemCount, setItemCount] = useState(1);
   const isOutOfStock = product.rating.count === 0;
+  const { addItem } = useCartStore();
 
   const handleAddToCart = () => {
     if (isOutOfStock) return;
 
-    toast.success(`${truncateText(product.title, 30)} added to cart!`);
+    addItem(product, itemCount);
+    toast.success(
+      `${truncateText(product.title, 30)} x${itemCount} added to cart!`
+    );
+  };
+
+  const incrementCount = () => {
+    if (itemCount < product.rating.count) {
+      setItemCount((prev) => prev + 1);
+    }
+  };
+
+  const decrementCount = () => {
+    if (itemCount > 1) {
+      setItemCount((prev) => prev - 1);
+    }
   };
 
   return (
@@ -117,6 +135,30 @@ export function ProductDetail({
             </div>
           </div>
 
+          <div className="flex items-center gap-4 mb-4">
+            <div className="flex items-center border rounded-md">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={decrementCount}
+                disabled={itemCount <= 1}
+                className="h-10 w-10"
+              >
+                <Minus className="h-4 w-4" />
+              </Button>
+              <span className="w-12 text-center">{itemCount}</span>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={incrementCount}
+                disabled={itemCount >= product.rating.count || isOutOfStock}
+                className="h-10 w-10"
+              >
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+
           <Button
             size="lg"
             onClick={handleAddToCart}
@@ -124,7 +166,7 @@ export function ProductDetail({
             className="w-full sm:w-auto"
           >
             <ShoppingCart className="w-5 h-5 mr-2" />
-            {isOutOfStock ? "Out of Stock" : "Add to Cart"}
+            {isOutOfStock ? "Out of Stock" : `Add  to Cart`}
           </Button>
         </div>
       </div>
