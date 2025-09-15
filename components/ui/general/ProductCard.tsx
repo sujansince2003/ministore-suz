@@ -5,9 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../button";
 import { ShoppingCart } from "lucide-react";
+import { useCartStore } from "@/store/cartStore";
 
+import { truncateText } from "@/lib/products-utils";
+import toast from "react-hot-toast";
 const ProductCard = ({ product }: { product: ProductType }) => {
   const isOutOfStock = product.rating.count === 0;
+  const { addItem } = useCartStore();
 
   function handleAddToCart(e: React.MouseEvent) {
     e.preventDefault();
@@ -15,7 +19,8 @@ const ProductCard = ({ product }: { product: ProductType }) => {
 
     if (isOutOfStock) return;
 
-    // add to cart
+    addItem(product);
+    toast.success(`${truncateText(product.title, 30)} added to cart!`);
   }
 
   return (
