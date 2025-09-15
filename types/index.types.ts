@@ -31,3 +31,10 @@ export type cartStore = {
 }
 
 
+export type FilterState = {
+    search: string;
+    categories: string[];
+    minPrice: number;
+    maxPrice: number;
+    sortBy: string;
+}
