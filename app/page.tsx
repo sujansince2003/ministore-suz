@@ -1,11 +1,11 @@
-import { getProducts } from "@/actions/products";
-
-import ProductCard from "@/components/ui/general/ProductCard";
-import type { ProductType } from "@/types/index.types";
 import { CircleSlash2 } from "lucide-react";
+import { getProducts, getCategories } from "@/actions/products";
+import { ProductsWrapper } from "@/components/ui/general";
+
 export default async function Home() {
   const products = await getProducts();
-  console.log(products);
+  const categories = await getCategories();
+
   if (products.length === 0) {
     return (
       <div className="text-center py-40">
@@ -22,14 +22,8 @@ export default async function Home() {
   }
 
   return (
-    <div className="flex flex-col gap-10 justify-center ">
-      <h1>Products page</h1>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {products?.map((product: ProductType) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+    <div className="container mx-auto px-4 py-8">
+      <ProductsWrapper initialProducts={products} categories={categories} />
     </div>
   );
 }
