@@ -12,3 +12,22 @@ export type ProductType = {
 
 
 }
+
+
+
+export type cartItemType = {
+    product: ProductType,
+    quantity: number
+}
+
+export type cartStore = {
+    items: cartItemType[],
+    addItem: (product: ProductType) => void,
+    removeItem: (productId: number) => void,
+    updateQuantity: (productId: number, quantity: number) => void,
+    clearCart: () => void,
+    getTotalItems: () => number,
+    getTotalPrice: () => number,
+}
+
+
