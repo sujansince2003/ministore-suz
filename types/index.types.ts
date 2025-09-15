@@ -22,7 +22,7 @@ export type cartItemType = {
 
 export type cartStore = {
     items: cartItemType[],
-    addItem: (product: ProductType) => void,
+    addItem: (product: ProductType, quantity?: number) => void,
     removeItem: (productId: number) => void,
     updateQuantity: (productId: number, quantity: number) => void,
     clearCart: () => void,
