@@ -5,7 +5,6 @@ import React from "react";
 
 const page = async ({ params }: { params: Promise<{ productid: string }> }) => {
   const { productid } = await params;
-  console.log("Product ID:", productid);
 
   const product = await getProduct(productid);
   let relatedProducts: ProductType[] = [];
