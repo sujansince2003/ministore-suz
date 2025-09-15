@@ -5,8 +5,8 @@ import { useCartStore } from "@/store/cartStore";
 import Link from "next/link";
 import { ArrowLeft, ShoppingBag } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import CartItem from "@/components/ui/general/cartItem";
 import { formatCurrency } from "@/lib/products-utils";
+import { CartItem } from "@/components/ui/general";
 
 const CartPage = () => {
   const { items, getTotalItems, getTotalPrice } = useCartStore();
@@ -68,7 +68,6 @@ const CartPage = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Cart Items */}
         <div className="lg:col-span-2">
           <Card>
             <CardContent className="p-0">
@@ -83,7 +82,6 @@ const CartPage = () => {
           </Card>
         </div>
 
-        {/* Cart Summary */}
         <div className="lg:col-span-1">
           <Card className="sticky top-20">
             <CardHeader>
@@ -112,7 +110,7 @@ const CartPage = () => {
               </Button>
 
               <p className="text-xs text-muted-foreground text-center">
-                Secure checkout with SSL encryption
+                Secure checkout with Bank Transfer or Credit Card
               </p>
             </CardContent>
           </Card>
