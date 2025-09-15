@@ -48,7 +48,7 @@ export function ProductDetail({
   };
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-1 py-8">
       <div className="mb-6">
         <Link
           href="/"
