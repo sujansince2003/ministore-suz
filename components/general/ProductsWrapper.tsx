@@ -3,10 +3,12 @@
 import { useState, useCallback } from "react";
 import ProductCard from "./ProductCard";
 import { ProductFilters } from "./ProductFilters";
+import { ProductCardSkeleton } from "./ProductCardSkeleton";
 import type { ProductType } from "@/types/index.types";
 import { filterProducts } from "@/lib/filter-utils";
 import type { FilterState } from "@/types/index.types";
 import { Button } from "@/components/ui/button";
+
 import {
   Select,
   SelectContent,
@@ -27,12 +29,19 @@ export function ProductsWrapper({
   const [filteredProducts, setFilteredProducts] = useState(initialProducts);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(6);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFilterChange = useCallback(
-    (filters: FilterState) => {
-      const filtered = filterProducts(initialProducts, filters);
-      setFilteredProducts(filtered);
-      setCurrentPage(1);
+    async (filters: FilterState) => {
+      setIsLoading(true);
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const filtered = filterProducts(initialProducts, filters);
+        setFilteredProducts(filtered);
+        setCurrentPage(1);
+      } finally {
+        setIsLoading(false);
+      }
     },
     [initialProducts]
   );
@@ -63,9 +72,13 @@ export function ProductsWrapper({
         <main className="col-span-3 space-y-6">
           <div className="flex items-center justify-between">
             <p className="text-sm text-muted-foreground">
-              Showing {startIndex + 1}-
-              {Math.min(endIndex, filteredProducts.length)} of{" "}
-              {filteredProducts.length} products
+              {!isLoading && (
+                <>
+                  Showing {startIndex + 1}-
+                  {Math.min(endIndex, filteredProducts.length)} of{" "}
+                  {filteredProducts.length} products
+                </>
+              )}
             </p>
             <div className="flex items-center gap-2">
               <Select
@@ -88,32 +101,38 @@ export function ProductsWrapper({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {currentProducts.map((product: ProductType) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {isLoading
+              ? Array.from({ length: itemsPerPage }).map((_, index) => (
+                  <ProductCardSkeleton key={index} />
+                ))
+              : currentProducts.map((product: ProductType) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
           </div>
 
-          <div className="flex items-center justify-between">
-            <Button
-              variant="outline"
-              onClick={prevPage}
-              disabled={currentPage === 1}
-            >
-              Previous
-            </Button>
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-muted-foreground">
-                Page {currentPage} of {totalPages}
-              </span>
+          {!isLoading && (
+            <div className="flex items-center justify-between">
+              <Button
+                variant="outline"
+                onClick={prevPage}
+                disabled={currentPage === 1}
+              >
+                Previous
+              </Button>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">
+                  Page {currentPage} of {totalPages}
+                </span>
+              </div>
+              <Button
+                variant="outline"
+                onClick={nextPage}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </Button>
             </div>
-            <Button
-              variant="outline"
-              onClick={nextPage}
-              disabled={currentPage === totalPages}
-            >
-              Next
-            </Button>
-          </div>
+          )}
         </main>
       </div>
     </div>

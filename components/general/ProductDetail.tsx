@@ -8,9 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { truncateText, formatCurrency } from "@/lib/products-utils";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ProductCard from "./ProductCard";
 import { useCartStore } from "@/store/cartStore";
+import { ProductDetailSkeleton } from "./ProductDetailSkeleton";
 
 interface ProductDetailProps {
   product: ProductType;
@@ -23,6 +24,7 @@ export function ProductDetail({
 }: ProductDetailProps) {
   const [imageLoading, setImageLoading] = useState(true);
   const [itemCount, setItemCount] = useState(1);
+  const [loading, setLoading] = useState(true);
   const isOutOfStock = product.rating.count === 0;
   const { addItem } = useCartStore();
 
@@ -46,6 +48,18 @@ export function ProductDetail({
       setItemCount((prev) => prev - 1);
     }
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <ProductDetailSkeleton />;
+  }
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-1 py-8">
