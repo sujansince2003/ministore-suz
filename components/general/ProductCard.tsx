@@ -3,7 +3,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import type { ProductType } from "@/types/index.types";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "../button";
+import { Button } from "../ui/button";
 import { ShoppingCart } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 

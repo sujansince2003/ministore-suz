@@ -1,5 +1,5 @@
 import { getProduct, getProductsByCategory } from "@/actions/products";
-import { ProductDetail } from "@/components/ui/general/ProductDetail";
+import { ProductDetail } from "@/components/general/ProductDetail";
 import { ProductType } from "@/types/index.types";
 import React from "react";
 

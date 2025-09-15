@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ArrowLeft, ShoppingBag } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/products-utils";
-import { CartItem } from "@/components/ui/general";
+import { CartItem } from "@/components/general";
 
 const CartPage = () => {
   const { items, getTotalItems, getTotalPrice } = useCartStore();

@@ -1,6 +1,6 @@
 import { CircleSlash2 } from "lucide-react";
 import { getProducts, getCategories } from "@/actions/products";
-import { ProductsWrapper } from "@/components/ui/general";
+import { ProductsWrapper } from "@/components/general";
 
 export default async function Home() {
   const products = await getProducts();
