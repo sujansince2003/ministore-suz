@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://suzzstore.vercel.app"),
+  metadataBase: new URL("https://ministore-suz.vercel.app"),
   icons: {
     icon: [
       {
