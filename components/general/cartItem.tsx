@@ -26,65 +26,70 @@ export function CartItem({ item }: CartItemProps) {
   };
 
   return (
-    <div className="flex items-center space-x-4 py-6 border-b">
-      <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
+    <div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 py-6 border-b">
+      <div className="relative h-20 w-20 sm:h-16 sm:w-16 flex-shrink-0 overflow-hidden rounded-lg bg-gray-100 dark:bg-gray-800">
         <Image
           src={product.image}
           alt={product.title}
           fill
           className="object-contain p-1"
-          sizes="64px"
+          sizes="(max-width: 640px) 80px, 64px"
         />
       </div>
 
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 space-y-1 sm:space-y-0">
         <h3 className="text-sm font-medium">
           {truncateText(product.title, 60)}
         </h3>
-        <p className="text-xs text-muted-foreground capitalize mt-1">
+        <p className="text-xs text-muted-foreground capitalize">
           {product.category}
         </p>
-        <p className="text-sm font-medium mt-1">
+        <p className="text-sm font-medium sm:mt-1">
           {formatCurrency(product.price)}
         </p>
       </div>
 
-      <div className="flex items-center space-x-2">
-        <Button
-          variant="outline"
-          size="icon"
-          className="h-8 w-8"
-          onClick={() => handleQuantityChange(quantity - 1)}
-        >
-          <Minus className="h-3 w-3" />
-        </Button>
-        <span className="w-8 text-center text-sm font-medium">{quantity}</span>
-        <Button
-          variant="outline"
-          size="icon"
-          className="h-8 w-8"
-          onClick={() => handleQuantityChange(quantity + 1)}
-          disabled={quantity >= product.rating.count}
-        >
-          <Plus className="h-3 w-3" />
-        </Button>
-      </div>
+      <div className="flex items-center justify-between sm:justify-normal sm:space-x-8">
+        <div className="flex items-center space-x-2">
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8"
+            onClick={() => handleQuantityChange(quantity - 1)}
+          >
+            <Minus className="h-3 w-3" />
+          </Button>
+          <span className="w-8 text-center text-sm font-medium">
+            {quantity}
+          </span>
+          <Button
+            variant="outline"
+            size="icon"
+            className="h-8 w-8"
+            onClick={() => handleQuantityChange(quantity + 1)}
+            disabled={quantity >= product.rating.count}
+          >
+            <Plus className="h-3 w-3" />
+          </Button>
+        </div>
 
-      <div className="text-right">
-        <p className="text-sm font-medium">
-          {formatCurrency(product.price * quantity)}
-        </p>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={() => removeItem(product.id)}
-          className="text-destructive hover:text-destructive mt-1 p-0 h-auto"
-        >
-          <Trash2 className="h-4 w-4 mr-1" />
-          Remove
-        </Button>
+        <div className="flex flex-col items-end sm:items-start">
+          <p className="text-sm font-medium">
+            {formatCurrency(product.price * quantity)}
+          </p>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => removeItem(product.id)}
+            className="text-destructive hover:text-destructive mt-1 p-0 h-auto"
+          >
+            <Trash2 className="h-4 w-4 mr-1" />
+            <span className="hidden sm:inline">Remove</span>
+          </Button>
+        </div>
       </div>
     </div>
   );
 }
+
 export default CartItem;
