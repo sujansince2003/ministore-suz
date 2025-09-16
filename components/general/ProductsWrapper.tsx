@@ -35,7 +35,7 @@ export function ProductsWrapper({
     async (filters: FilterState) => {
       setIsLoading(true);
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 500));
         const filtered = filterProducts(initialProducts, filters);
         setFilteredProducts(filtered);
         setCurrentPage(1);
