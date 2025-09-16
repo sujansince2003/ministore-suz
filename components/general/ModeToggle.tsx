@@ -18,12 +18,16 @@ export function ModeToggle() {
       size="icon"
       onClick={toggleTheme}
       className="h-9 w-9"
+      aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
     >
       {theme === "dark" ? (
-        <Sun className="h-4 w-4" />
+        <Sun className="h-4 w-4" aria-hidden="true" />
       ) : (
-        <Moon className="h-4 w-4" />
+        <Moon className="h-4 w-4" aria-hidden="true" />
       )}
+      <span className="sr-only">
+        Switch to {theme === "dark" ? "light" : "dark"} mode
+      </span>
     </Button>
   );
 }

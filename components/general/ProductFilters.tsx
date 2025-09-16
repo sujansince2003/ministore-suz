@@ -47,17 +47,18 @@ export function ProductFilters({
   }, [filters, onFilterChange]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="flex flex-col space-y-2">
         <Label>Search</Label>
         <Input
           placeholder="Search products..."
           onChange={(e) => debouncedSearch(e.target.value)}
+          className="max-w-full"
         />
       </div>
 
       <div>
-        <Label>Categories</Label>
+        <Label className="text-sm font-medium">Categories</Label>
         <div className="space-y-2 mt-2">
           {categories.map((category) => (
             <div key={category} className="flex items-center space-x-2">
@@ -73,7 +74,10 @@ export function ProductFilters({
                   }));
                 }}
               />
-              <Label htmlFor={category} className="capitalize">
+              <Label
+                htmlFor={category}
+                className="capitalize text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+              >
                 {category}
               </Label>
             </div>
@@ -94,6 +98,7 @@ export function ProductFilters({
                 minPrice: Number(e.target.value),
               }))
             }
+            className="w-full"
           />
           <span>-</span>
           <Input
@@ -106,18 +111,19 @@ export function ProductFilters({
                 maxPrice: Number(e.target.value),
               }))
             }
+            className="w-full"
           />
         </div>
       </div>
 
       <div className="flex flex-col space-y-2">
-        <Label>Sort By</Label>
+        <Label htmlFor="sort-by">Sort By</Label>
         <Select
           onValueChange={(value) =>
             setFilters((prev) => ({ ...prev, sortBy: value }))
           }
         >
-          <SelectTrigger>
+          <SelectTrigger id="sort-by" aria-label="Sort by price">
             <SelectValue placeholder="Sort by price" />
           </SelectTrigger>
           <SelectContent>
